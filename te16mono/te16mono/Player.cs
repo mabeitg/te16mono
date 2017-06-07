@@ -41,6 +41,30 @@ namespace te16mono
             //Själva: Ordna styrning för a, s, d också
 
             position += velocity;
+
+            if(position.X<0)
+            {
+                position.X = 0;
+                velocity.X = -velocity.X;
+            }
+
+            if (position.Y < 0)
+            {
+                position.Y = 0;
+                velocity.Y = -velocity.Y;
+            }
+
+            if (position.X+texture.Width >800)
+            {
+                position.X = 800-texture.Width;
+                velocity.X = -velocity.X;
+            }
+
+            if (position.Y + texture.Height> 480)
+            {
+                position.Y = 480- texture.Height;
+                velocity.Y = -velocity.Y;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
