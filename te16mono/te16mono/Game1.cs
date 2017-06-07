@@ -11,7 +11,6 @@ namespace te16mono
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         Player player, player2;
 
         public Game1()
@@ -56,7 +55,6 @@ namespace te16mono
             player.texture= Content.Load<Texture2D>("square");
             player2.texture = Content.Load<Texture2D>("square");
 
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -81,6 +79,9 @@ namespace te16mono
 
             player.Update();
             player2.Update();
+
+            if(player.Hitbox.Intersects(player2.Hitbox))
+                //NÅN KOD för att se om det fungerar!
 
             // TODO: Add your update logic here
 

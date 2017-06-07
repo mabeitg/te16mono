@@ -17,6 +17,15 @@ namespace te16mono
         float acceleration = (float)0.2;
         public Keys up, down, left, right;
 
+        public Rectangle Hitbox
+        {
+            get
+            {
+                Rectangle hitbox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+                return hitbox;
+            }
+        }
+
         public void Initialize()
         {
             position = new Vector2();
