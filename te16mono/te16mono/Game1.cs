@@ -65,6 +65,7 @@ namespace te16mono
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            player.Update();
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -79,7 +80,7 @@ namespace te16mono
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-
+            player.Draw(spriteBatch);
             spriteBatch.End();
 
             // TODO: Add your drawing code here
