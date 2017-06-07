@@ -12,7 +12,7 @@ namespace te16mono
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Player player;
+        Player player, player2;
 
         public Game1()
         {
@@ -30,6 +30,18 @@ namespace te16mono
         {
             // TODO: Add your initialization logic here
             player = new Player();
+            player.up = Keys.W;
+            player.down = Keys.S;
+            player.left = Keys.A;
+            player.right = Keys.D;
+
+            player2 = new Player();
+            player2.Initialize();
+            player2.up = Keys.Up;
+            player2.down = Keys.Down;
+            player2.left = Keys.Left;
+            player2.right = Keys.Right;
+
             base.Initialize();
         }
 
@@ -42,6 +54,8 @@ namespace te16mono
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player.texture= Content.Load<Texture2D>("square");
+            player2.texture = Content.Load<Texture2D>("square");
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -66,6 +80,8 @@ namespace te16mono
                 Exit();
 
             player.Update();
+            player2.Update();
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -81,6 +97,7 @@ namespace te16mono
 
             spriteBatch.Begin();
             player.Draw(spriteBatch);
+            player2.Draw(spriteBatch);
             spriteBatch.End();
 
             // TODO: Add your drawing code here

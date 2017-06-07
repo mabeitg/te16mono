@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace te16mono
 {
-
     class Player
     {
         public Texture2D texture;
         Vector2 position, velocity;
         float acceleration = (float)0.2;
+        public Keys up, down, left, right;
+
         public void Initialize()
         {
             position = new Vector2();
@@ -30,13 +31,13 @@ namespace te16mono
             //Spellogik
             KeyboardState pressedKeys = Keyboard.GetState();
 
-            if (pressedKeys.IsKeyDown(Keys.W))
+            if (pressedKeys.IsKeyDown(up))
                 velocity.Y -= acceleration;
-            if (pressedKeys.IsKeyDown(Keys.A))
+            if (pressedKeys.IsKeyDown(left))
                 velocity.X -= acceleration;
-            if (pressedKeys.IsKeyDown(Keys.S))
+            if (pressedKeys.IsKeyDown(down))
                 velocity.Y += acceleration;
-            if (pressedKeys.IsKeyDown(Keys.D))
+            if (pressedKeys.IsKeyDown(right))
                 velocity.X += acceleration;
             //Själva: Ordna styrning för a, s, d också
 
