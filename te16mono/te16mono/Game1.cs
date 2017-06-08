@@ -12,6 +12,7 @@ namespace te16mono
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Player player, player2;
+        SpriteFont font;
 
         public Game1()
         {
@@ -27,12 +28,14 @@ namespace te16mono
         /// </summary>
         protected override void Initialize()
         {
+
             // TODO: Add your initialization logic here
             player = new Player();
             player.up = Keys.W;
             player.down = Keys.S;
             player.left = Keys.A;
             player.right = Keys.D;
+            player.attack = Keys.LeftControl;
 
             player2 = new Player();
             player2.Initialize();
@@ -40,6 +43,7 @@ namespace te16mono
             player2.down = Keys.Down;
             player2.left = Keys.Left;
             player2.right = Keys.Right;
+            player2.attack = Keys.RightControl;
 
             base.Initialize();
         }
@@ -52,8 +56,10 @@ namespace te16mono
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player.texture= Content.Load<Texture2D>("square");
+            player.texture = Content.Load<Texture2D>("square");
             player2.texture = Content.Load<Texture2D>("square");
+
+            font = Content.Load<SpriteFont>("Font");
 
             // TODO: use this.Content to load your game content here
         }
@@ -77,12 +83,47 @@ namespace te16mono
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            for (int i = 0; i < player.shots.Count;)
+            {
+                if (player.shots[i].isAlive == false)
+                    player.shots.RemoveAt(i);
+                else
+                    i++;
+            }
+
+            for (int i = 0; i < player2.shots.Count;)
+            {
+                if (player2.shots[i].isAlive == false)
+                    player2.shots.RemoveAt(i);
+                else
+                    i++;
+            }
+
+
             player.Update();
             player2.Update();
 
-            if(player.Hitbox.Intersects(player2.Hitbox))
-                //NÅN KOD för att se om det fungerar!
+            foreach (Shot shot in player.shots)
+            {
+                shot.Update();
+                if (player2.Hitbox.Intersects(shot.Hitbox))
+                {
+                    player.points++;
+                    shot.isAlive = false;
+                }
+            }
 
+            foreach (Shot shot in player2.shots)
+            {
+                shot.Update();
+                if (player.Hitbox.Intersects(shot.Hitbox))
+                {
+                    player2.points++;
+                    shot.isAlive = false;
+                }
+            }
+
+           
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -97,8 +138,19 @@ namespace te16mono
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+
+            foreach (Shot shot in player.shots)
+            {
+                shot.Draw(spriteBatch);
+            }
+            foreach (Shot shot in player2.shots)
+            {
+                shot.Draw(spriteBatch);
+            }
+
             player.Draw(spriteBatch);
             player2.Draw(spriteBatch);
+            spriteBatch.DrawString(font, "Poang: " + player.points.ToString() + " - " + player2.points.ToString(), Vector2.Zero, Color.White);
             spriteBatch.End();
 
             // TODO: Add your drawing code here

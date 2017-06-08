@@ -12,10 +12,12 @@ namespace te16mono
 {
     class Player
     {
+        public int points;
         public Texture2D texture;
         Vector2 position, velocity;
         float acceleration = (float)0.2;
-        public Keys up, down, left, right;
+        public Keys up, down, left, right, attack;
+        public List<Shot> shots=new List<Shot>();
 
         public Rectangle Hitbox
         {
@@ -48,6 +50,15 @@ namespace te16mono
                 velocity.Y += acceleration;
             if (pressedKeys.IsKeyDown(right))
                 velocity.X += acceleration;
+            if(pressedKeys.IsKeyDown(attack))
+            {
+                Shot shot = new Shot();
+                shot.isAlive = true;
+                shot.position = position;
+                shot.texture = texture;
+                shot.velocity = Vector2.Normalize(velocity) * 10;
+                shots.Add(shot);
+            }
             //Själva: Ordna styrning för a, s, d också
 
             position += velocity;
