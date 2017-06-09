@@ -12,6 +12,7 @@ namespace te16mono
 {
     class Player
     {
+        Random rng = new Random();
         public int points;
         public Texture2D texture;
         public Vector2 position, velocity;
@@ -56,7 +57,11 @@ namespace te16mono
                 shot.isAlive = true;
                 shot.position = position;
                 shot.texture = texture;
-                shot.velocity = Vector2.Normalize(velocity) * 2;
+
+                shot.velocity = Vector2.Normalize(velocity) * 10;
+                shot.velocity.X += 4 * (float)(rng.NextDouble() -0.5f);
+                shot.velocity.Y += 4 * (float)(rng.NextDouble() -0.5f);
+
                 shots.Add(shot);
             }
             //Själva: Ordna styrning för a, s, d också
