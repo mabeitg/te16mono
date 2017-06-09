@@ -31,3 +31,15 @@
 /processorParam:TextureFormat=Compressed
 /build:Font.spritefont
 
+#begin bgmusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:bgmusic.mp3
+
+#begin megaman2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:megaman2.mp3
+

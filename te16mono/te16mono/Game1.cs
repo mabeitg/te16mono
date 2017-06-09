@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace te16mono
 {
@@ -13,6 +14,10 @@ namespace te16mono
         SpriteBatch spriteBatch;
         Player player, player2;
         SpriteFont font;
+        Song music;
+
+        Block testblock;
+
 
         public Game1()
         {
@@ -28,6 +33,11 @@ namespace te16mono
         /// </summary>
         protected override void Initialize()
         {
+            testblock = new Block();
+            testblock.position.X = 200;
+            testblock.position.Y = 310;
+            testblock.isAlive = true;
+            testblock.type = TypeOfBlock.teleporter;
 
             // TODO: Add your initialization logic here
             player = new Player();
@@ -59,8 +69,13 @@ namespace te16mono
             player.texture = Content.Load<Texture2D>("square");
             player2.texture = Content.Load<Texture2D>("square");
 
+            testblock.texture= Content.Load<Texture2D>("square");
+
             font = Content.Load<SpriteFont>("Font");
 
+            music = Content.Load<Song>("megaman2");
+            MediaPlayer.Play(music);
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -82,6 +97,18 @@ namespace te16mono
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if(player.Hitbox.Intersects(testblock.Hitbox))
+            {
+                if (testblock.type == TypeOfBlock.teleporter)
+                    player.position = Vector2.Zero;
+            }
+
+            if (player2.Hitbox.Intersects(testblock.Hitbox))
+            {
+                if (testblock.type == TypeOfBlock.teleporter)
+                    player2.position = Vector2.Zero;
+            }
 
             for (int i = 0; i < player.shots.Count;)
             {
@@ -150,6 +177,9 @@ namespace te16mono
 
             player.Draw(spriteBatch);
             player2.Draw(spriteBatch);
+
+            testblock.Draw(spriteBatch);
+
             spriteBatch.DrawString(font, "Poang: " + player.points.ToString() + " - " + player2.points.ToString(), Vector2.Zero, Color.White);
             spriteBatch.End();
 
